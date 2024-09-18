@@ -62,8 +62,13 @@ fun CFSlider() {
         Slider(
             value = sliderPositionF,
             onValueChange = {
-                sliderPositionF = it
-                sliderPositionC = (it - 32f) / 1.8f
+                if (it < 32f) {
+                    sliderPositionF = 32f
+                    sliderPositionC = 0f
+                } else {
+                    sliderPositionF = it
+                    sliderPositionC = (it - 32f) / 1.8f
+                }
             },
             valueRange = 0f..212f,
             modifier = Modifier.padding(horizontal = 16.dp),
