@@ -13,6 +13,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.tooling.preview.Preview
@@ -37,6 +38,7 @@ fun CFSlider() {
 
     var sliderPositionC by remember { mutableFloatStateOf(0f) }
     var sliderPositionF by remember { mutableFloatStateOf(32f) }
+    val message = remember { mutableStateOf("") }
 
     Column(
         modifier = Modifier.fillMaxSize(),
@@ -49,6 +51,11 @@ fun CFSlider() {
             onValueChange = {
                 sliderPositionC = it
                 sliderPositionF = it * 1.8f + 32f
+                message.value = if (sliderPositionC <= 20f) {
+                    "I wish it were warmer."
+                } else {
+                    "I wish it were colder."
+                }
             },
             valueRange = 0f..100f,
             modifier = Modifier.padding(horizontal = 16.dp),
@@ -69,11 +76,21 @@ fun CFSlider() {
                     sliderPositionF = it
                     sliderPositionC = (it - 32f) / 1.8f
                 }
+                message.value = if (sliderPositionC <= 20f) {
+                    "I wish it were warmer."
+                } else {
+                    "I wish it were colder."
+                }
             },
             valueRange = 0f..212f,
             modifier = Modifier.padding(horizontal = 16.dp),
         )
         Text(text = sliderPositionF.toString())
+
+        Text(
+            text = message.value,
+            modifier = Modifier.padding(vertical = 16.dp)
+        )
     }
 }
 
